@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>媒体名单 · 在线同步源</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F5F9FF;color:#1B2A4A;
+font:14px/1.8 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:40px 20px}
+h1{font-size:22px;margin:0 0 6px}
+.sub{color:#7A8AA6;font-size:13px;margin:0 0 24px}
+.card{background:#fff;border:1px solid #E4EBF6;border-radius:18px;padding:20px 24px;
+box-shadow:0 8px 30px rgba(31,45,74,.06);margin-bottom:16px}
+code{background:#F2F6FC;border-radius:6px;padding:2px 7px;font-size:12.5px;color:#3B5B8C;
+word-break:break-all}
+.big{font-size:28px;font-weight:800;color:#1B4FD8}
+.tag{display:inline-block;background:#EAF2FF;color:#1B4FD8;border-radius:7px;padding:2px 9px;font-size:12px}
+.ok{display:inline-block;background:#ECFDF5;color:#15803D;border-radius:7px;padding:2px 9px;font-size:12px}
+ul{padding-left:20px}li{margin:6px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>媒体名单 · 在线同步源</h1>
+  <p class="sub">这个目录只托管<strong>一份加密名单</strong>，供插件定时拉取。</p>
+
+  <div class="card">
+    <div><span class="big">5649</span> <span class="tag">个媒体</span> <span class="ok">AES-GCM 加密</span></div>
+    <p style="margin:14px 0 0">插件内置的同步地址（已写死，用户无需填写）：</p>
+    <p><code>https://raw.githubusercontent.com/RuaoRuaoDemo/media-list-sync/main/media-list.enc</code></p>
+    <p style="margin:0"><a href="media-list.enc">media-list.enc</a> —— 密文文件，直接打开看不到任何媒体名。</p>
+  </div>
+
+  <div class="card">
+    <b>怎么更新名单</b>
+    <ul>
+      <li>改完 Excel → 运行 <code>node tools/build-enc.js</code> 重新生成 <code>media-list.enc</code>；</li>
+      <li>运行 <code>python tools/publish-github.py</code> 覆盖上传（token 只从环境变量读）；</li>
+      <li>所有装了插件的电脑在设定间隔内自动拉到新名单，无需逐台操作；</li>
+      <li>名单拉回后再用<strong>各自本机的设备密钥</strong>加密存储，浏览器存储里也是密文。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <b>安全说明（如实）</b>
+    <ul>
+      <li>密文用 AES-GCM；URL 被第三方看到、抓包、误转发时名单都不会明文泄露；</li>
+      <li>解密密钥内置在扩展代码里，因此能拿到扩展目录的人仍可解出名单——这属于「不明文暴露」，
+          不是防内部人员的口令级保护；</li>
+      <li>这里<strong>不含任何 GitHub token 或业务凭证</strong>。</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
